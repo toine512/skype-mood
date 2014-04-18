@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/img">
+        <file alias="clear.png">img/clear.png</file>
+        <file alias="rm.png">img/rm.png</file>
+        <file alias="push.png">img/push.png</file>
+        <file alias="gear.png">img/gear.png</file>
+    </qresource>
+    <qresource prefix="/translations">
+        <file alias="fr.qm">translations/fr.qm</file>
+    </qresource>
+</RCC>

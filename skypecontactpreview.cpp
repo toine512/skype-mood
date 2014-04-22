@@ -14,15 +14,19 @@ SkypeContactPreview::SkypeContactPreview(QWidget *parent) :
     lab_mood = new QLabel;
 
     layout = new QGridLayout;
-    layout->setSizeConstraint(QLayout::SetMaximumSize);
+    layout->setContentsMargins(10, 5, 10, 5);
     layout->setHorizontalSpacing(10);
-    layout->addWidget(lab_picture, 0, 0, 2, 1);
-    layout->addWidget(lab_status, 0, 1, 1, 1);
-    layout->addWidget(lab_name, 0, 2, 1, 1);
-    layout->addWidget(lab_mood, 1, 2, 1, 1);
+    layout->setVerticalSpacing(0);
+    layout->addWidget(lab_picture, 0, 0, 2, 1, Qt::AlignLeft | Qt::AlignTop);
+    layout->setColumnStretch(0, 0);
+    layout->addWidget(lab_status, 0, 1, 1, 1, Qt::AlignTop | Qt::AlignHCenter);
+    layout->setColumnStretch(1, 0);
+    layout->addWidget(lab_name, 0, 2, 1, 1, Qt::AlignLeft | Qt::AlignVCenter);
+    layout->addWidget(lab_mood, 1, 2, 1, 1, Qt::AlignLeft | Qt::AlignVCenter);
+    layout->setColumnStretch(2, 1); //Only the third column will be stretched
 
-    setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
-    setFixedHeight(40);
+    setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
+    setFixedHeight(42); //32 + 5 + 5
     setLayout(layout);
     //Set white background
     QPalette pal(palette());

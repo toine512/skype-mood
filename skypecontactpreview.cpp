@@ -49,5 +49,5 @@ void SkypeContactPreview::setName(const QString &name)
 
 void SkypeContactPreview::setMood(const QString &mood)
 {
-    lab_mood->setText(QString("<font color='#999999'>%1</font>").arg(mood));
+    lab_mood->setText(QString("<font color=\"#979797\">%1</font>").arg(mood));
 }

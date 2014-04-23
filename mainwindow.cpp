@@ -61,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
     lab_mood_preview = new QLabel;
     lab_mood_preview->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     lab_mood_preview->setWordWrap(true);
-    lab_mood_preview->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    lab_mood_preview->setAlignment(Qt::AlignLeft | Qt::AlignBottom);
     contact_preview = new SkypeContactPreview;
     layout_preview = new QVBoxLayout;
     layout_preview->setContentsMargins(0, 0, 0, 0);
@@ -100,11 +100,12 @@ MainWindow::MainWindow(QWidget *parent)
     btn_menu->setIconSize(QSize(24, 24));
     btn_menu->setIcon(QIcon(":img/gear.png"));
     layout_history_btn = new QVBoxLayout;
-    layout_history_btn->addWidget(btn_history_push);
-    layout_history_btn->addWidget(btn_history_rm);
-    layout_history_btn->addWidget(btn_history_clear);
+    layout_history_btn->setContentsMargins(0, 0, 0, 0);
+    layout_history_btn->addWidget(btn_history_push, 0, Qt::AlignCenter);
+    layout_history_btn->addWidget(btn_history_rm, 0, Qt::AlignCenter);
+    layout_history_btn->addWidget(btn_history_clear, 0, Qt::AlignCenter);
     layout_history_btn->addStretch();
-    layout_history_btn->addWidget(btn_menu);
+    layout_history_btn->addWidget(btn_menu, 0, Qt::AlignCenter);
     layout_history = new QHBoxLayout;
     layout_history->addWidget(history_view);
     layout_history->addLayout(layout_history_btn);
@@ -118,9 +119,9 @@ MainWindow::MainWindow(QWidget *parent)
     layout_main = new QVBoxLayout;
     //layout_main->addWidget(lab_maindb, 1);
     layout_main->addLayout(layout_maindb, 1);
-    layout_main->addLayout(layout_mood, 30);
-    layout_main->addWidget(btn_apply, 1);
-    layout_main->addWidget(history_separator);
+    layout_main->addLayout(layout_mood, 35);
+    layout_main->addWidget(btn_apply, 0);
+    layout_main->addWidget(history_separator, 0);
     layout_main->addLayout(layout_history, 44);
     QWidget *central_widget = new QWidget;
     central_widget->setLayout(layout_main);
@@ -128,7 +129,7 @@ MainWindow::MainWindow(QWidget *parent)
     //Setting defaults
     setWindowTitle("Skype Richtext Mood Editor");
     disableEditing();
-    resize(550, 350);
+    resize(550, 380);
 
     //Signal/slot connections
     connect(pte_mood, SIGNAL(textChanged()), this, SLOT(onMoodTextChanged()));

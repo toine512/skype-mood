@@ -32,6 +32,7 @@
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include "progressdialog.h"
+#include "tagsplaintextedit.h"
 #include "skypecontactpreview.h"
 #include "entitledseparator.h"
 #include "htmldelegate.h"
@@ -73,7 +74,7 @@ protected:
     QLabel *lab_maindb, *lab_mood_preview;
     QComboBox *cb_maindb;
     QPushButton *btn_maindb, *btn_apply, *btn_menu;
-    QPlainTextEdit *pte_mood;
+    TagsPlainTextEdit *pte_mood;
     SkypeContactPreview *contact_preview;
     QListView *history_view;
     QToolButton *btn_history_push, *btn_history_rm, *btn_history_clear;

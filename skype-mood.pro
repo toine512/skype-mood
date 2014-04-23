@@ -18,7 +18,9 @@ SOURCES += main.cpp\
     progressdialog.cpp \
     htmldelegate.cpp \
     menudialog.cpp \
-    entitledseparator.cpp
+    entitledseparator.cpp \
+    editableintsizecombobox.cpp \
+    tagsplaintextedit.cpp
 
 HEADERS  += mainwindow.h \
     skypecontactpreview.h \
@@ -26,7 +28,9 @@ HEADERS  += mainwindow.h \
     htmldelegate.h \
     menudialog.h \
     defines.h \
-    entitledseparator.h
+    entitledseparator.h \
+    editableintsizecombobox.h \
+    tagsplaintextedit.h
 
 TRANSLATIONS  += fr.ts
 

@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
     layout_maindb->addWidget(btn_maindb);
 
     //Mood message section
-    pte_mood = new QPlainTextEdit;
+    pte_mood = new TagsPlainTextEdit;
     pte_mood->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
     lab_mood_preview = new QLabel;
     lab_mood_preview->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -64,6 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
     lab_mood_preview->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     contact_preview = new SkypeContactPreview;
     layout_preview = new QVBoxLayout;
+    layout_preview->setContentsMargins(0, 0, 0, 0);
     layout_preview->addWidget(lab_mood_preview);
     layout_preview->addWidget(contact_preview);
     layout_mood = new QHBoxLayout;

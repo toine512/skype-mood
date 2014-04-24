@@ -5,7 +5,11 @@
 
 #include <QApplication>
 
+#include <QSettings>
 #include <QString>
+#include <QStringList>
+#include <QDir>
+#include <QTranslator>
 
 #include <QDialog>
 #include <QLabel>
@@ -14,21 +18,25 @@
 #include <QIcon>
 #include <QGridLayout>
 #include <QMessageBox>
+#include <QComboBox>
 
 class MenuDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit MenuDialog(QWidget *parent = 0);
+    explicit MenuDialog(QSettings *settings, QWidget *parent = 0);
 
-protected slots:
+private slots:
+    void langSelected(int index);
     void aboutQt();
 
-protected:
-    QLabel *lab_notice, *lab_gplv3;
-    QPushButton *btn_aboutQt;
-    QGridLayout *layout;
+private:
+    void listTranslations();
+
+    QSettings *settings;
+
+    QComboBox *cb_lang;
 };
 
 #endif // MENUDIALOG_H

@@ -8,6 +8,9 @@ MainWindow::MainWindow(QWidget *parent)
     //Settings
     settings = new QSettings("skype-mood.ini", QSettings::IniFormat, this);
 
+    //Translation
+    initTranslator();
+
     //History data
     history_model = new QStringListModel(settings->value("history/list").toStringList(), this);
 
@@ -61,10 +64,24 @@ MainWindow::~MainWindow()
     }
 }
 
+void MainWindow::initTranslator()
+{
+    Q_UNUSED(QT_TRANSLATE_NOOP("meta", "language"));
+
+    qDebug() << "Locale :" << QLocale::system().name();
+    QTranslator *tr = new QTranslator(qApp);
+    QString path = settings->value("ui/lang", QString(":translations/%1.qm").arg(QLocale::system().name())).toString();
+    if(tr->load(path))
+    {
+        qApp->installTranslator(tr);
+        settings->setValue("ui/lang", path);
+    }
+}
+
 QWidget *MainWindow::initContent()
 {
     /* Popup dialogs */
-    MenuDialog *dlg_menu = new MenuDialog(this);
+    MenuDialog *dlg_menu = new MenuDialog(settings, this);
 
     /* Main window content */
     //main.db path section

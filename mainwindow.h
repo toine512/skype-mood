@@ -14,6 +14,8 @@
 #include <QProcess>
 #include <QThread>
 #include <QApplication>
+#include <QTranslator>
+#include <QLocale>
 
 #include <QMainWindow>
 #include <QMessageBox>
@@ -73,6 +75,7 @@ private:
     bool skype_was_killed;
 
 protected:
+    void initTranslator();
     QWidget * initContent();
     //Include these in the right class
     QString decodeXMLEntities(QString str) const;

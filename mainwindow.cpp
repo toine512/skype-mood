@@ -104,7 +104,7 @@ QWidget *MainWindow::initContent()
     lab_mood_preview = new QLabel;
     lab_mood_preview->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     lab_mood_preview->setWordWrap(true);
-    lab_mood_preview->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    lab_mood_preview->setAlignment(Qt::AlignLeft | Qt::AlignBottom);
     contact_preview = new SkypeContactPreview;
 
     QVBoxLayout *layout_preview = new QVBoxLayout;

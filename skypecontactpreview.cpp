@@ -5,7 +5,7 @@ SkypeContactPreview::SkypeContactPreview(QWidget *parent) :
 {
     lab_picture = new QLabel;
     lab_picture->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    lab_status = new QLabel;
+    QLabel *lab_status = new QLabel;
     lab_status->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     QPixmap pixmap;
     pixmap.loadFromData(QByteArray::fromBase64("iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOBAMAAADtZjDiAAAAA3NCSVQICAjb4U/gAAAAKlBMVEV/ugC/3YCXxzD3++/n8s+n0FCHvhD////P5aCfy0Dv9t+PwyCv1GDH4ZB5aF3aAAAACXBIWXMAAA50AAAOdAFrJLPWAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M0BrLToAAAAFtJREFUCJljsGSYXA4EDBMYGBhylpczgEEKlGZbDhbX3XCcwYCBgdNcIZ2hgO3Y8UIGdoYCzqryBiBdxtBey8DAzFDDwBsAVMJQlQDRWu4GpauOMYDEQZYA7QIABzwWQCQgM5IAAAAASUVORK5CYII="));
@@ -13,7 +13,7 @@ SkypeContactPreview::SkypeContactPreview(QWidget *parent) :
     lab_name = new QLabel;
     lab_mood = new QLabel;
 
-    layout = new QGridLayout;
+    QGridLayout *layout = new QGridLayout;
     layout->setContentsMargins(10, 5, 10, 5);
     layout->setHorizontalSpacing(10);
     layout->setVerticalSpacing(0);
@@ -28,6 +28,7 @@ SkypeContactPreview::SkypeContactPreview(QWidget *parent) :
     setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
     setFixedHeight(42); //32 + 5 + 5
     setLayout(layout);
+
     //Set white background
     QPalette pal(palette());
     pal.setColor(QPalette::Background, Qt::white);
@@ -47,7 +48,8 @@ void SkypeContactPreview::setName(const QString &name)
     lab_name->setText(name);
 }
 
-void SkypeContactPreview::setMood(const QString &mood)
+void SkypeContactPreview::setMood(QString mood)
 {
+    mood.remove(QRegularExpression("<[^>]+>", QRegularExpression::CaseInsensitiveOption | QRegularExpression::DotMatchesEverythingOption));
     lab_mood->setText(QString("<font color=\"#979797\">%1</font>").arg(mood));
 }

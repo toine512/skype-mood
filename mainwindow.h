@@ -74,7 +74,7 @@ private:
 
 protected:
     QWidget * initContent();
-    //Include these in the proper class
+    //Include these in the right class
     QString decodeXMLEntities(QString str) const;
     QString encodeXMLEntities(QString str) const;
     //QString removeTags(QString str) const; //move this
@@ -83,20 +83,13 @@ protected:
     QSqlDatabase maindb;
     QStringListModel *history_model;
 
-    QLabel /**lab_maindb, */*lab_mood_preview;
+    QLabel *lab_mood_preview;
     QComboBox *cb_maindb;
-    QPushButton /**btn_maindb, */*btn_apply/*, *btn_menu*/;
+    QPushButton *btn_apply;
     TagsPlainTextEdit *pte_mood;
     SkypeContactPreview *contact_preview;
     QListView *history_view;
-    QToolButton *btn_history_push/*, *btn_history_rm, *btn_history_clear*/;
-
-    //HtmlDelegate *history_itemDelegate;
-    //MenuDialog *dlg_menu;
-
-    /*QVBoxLayout *layout_main, *layout_preview, *layout_history_btn;
-    QHBoxLayout *layout_maindb, *layout_mood, *layout_history;
-    QGridLayout *layout_history;*/
+    QToolButton *btn_history_push;
 };
 
 #endif // MAINWINDOW_H

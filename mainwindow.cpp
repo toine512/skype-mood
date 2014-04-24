@@ -68,7 +68,6 @@ QWidget *MainWindow::initContent()
 
     /* Main window content */
     //main.db path section
-    //lab_maindb = new QLabel(tr("Skype account :"));
     cb_maindb = new QComboBox;
     cb_maindb->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     connect(cb_maindb, SIGNAL(currentIndexChanged(int)), this, SLOT(onMaindbSelected(int)));
@@ -79,9 +78,6 @@ QWidget *MainWindow::initContent()
     layout_maindb->addWidget(new QLabel(tr("Skype account :")));
     layout_maindb->addWidget(cb_maindb);
     layout_maindb->addWidget(btn_maindb);
-
-    //Separator
-    //EntitledSeparator *mood_separator = new EntitledSeparator(tr("Mood message"));
 
     //Mood message section
     pte_mood = new TagsPlainTextEdit;
@@ -106,15 +102,10 @@ QWidget *MainWindow::initContent()
     btn_apply = new QPushButton(tr("Apply"));
     connect(btn_apply, SIGNAL(clicked()), this, SLOT(applyAndClose()));
 
-    //Separator
-    //EntitledSeparator *history_separator = new EntitledSeparator(tr("History"));
-
     //History section
     history_view = new QListView;
     history_view->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Expanding);
     history_view->setModel(history_model);
-    //history_itemDelegate = new HtmlDelegate(this);
-    //history_view->setItemDelegate(history_itemDelegate);
     history_view->setItemDelegate(new HtmlDelegate(this));
 
     btn_history_push = new QToolButton;
@@ -294,15 +285,14 @@ void MainWindow::onMaindbSelected(int index)
                 if(QProcess::execute("taskkill", QStringList() << "/im" << "Skype.exe") == 0)
                 {
                     skype_was_killed = true; //Used in the destructor to restart Skype
-                    //btn_apply->setText("Apply and start Skype"); //SHOULD NOT BE NECESSARY !
-                    //Waits a maximum of 15 sec for the lock to be released
+                    //Waits a maximum of 15 sec (default for MAINDB_LOCK_TIMEOUT) for the lock to be released
                     ProgressDialog *dlg_progress = new ProgressDialog(this);
                     dlg_progress->open();
                     bool unlocked = false;
                     for(int t = 0; t < MAINDB_LOCK_TIMEOUT; t++)
                     {
                         dlg_progress->progress(tr("Waiting for Skype to release the lock on the database…"), t, MAINDB_LOCK_TIMEOUT + 1);
-                        QApplication::processEvents(); //FIXME Check later if this is really needed !
+                        QApplication::processEvents(); //Prevents freezing while blocked in the loop
                         QThread::sleep(1);
                         if(!QFile::exists(maindb_lock))
                         {
@@ -341,8 +331,6 @@ void MainWindow::onMaindbSelected(int index)
                        {
                            /* Name */
                            QString fullname(query.value("fullname").toString());
-                           //qDebug() << query.value("skypename").toString();
-                           //qDebug() << fullname;
                            if(fullname.isEmpty())
                            {
                                //Set the skypename as name in contact preview instead
@@ -362,7 +350,6 @@ void MainWindow::onMaindbSelected(int index)
                            pte_mood->setPlainText(mood_text);
 
                            //Set the mood text in the contact preview
-                           //contact_preview->setMood(removeTags(mood_text));
                            contact_preview->setMood(mood_text);
 
                            //Add current mood into history
@@ -422,7 +409,6 @@ void MainWindow::onMoodTextChanged()
 {
     //FIXME Filter Skype size
     lab_mood_preview->setText(pte_mood->toPlainText());
-    //contact_preview->setMood(removeTags(pte_mood->toPlainText()));
     contact_preview->setMood(pte_mood->toPlainText());
 }
 

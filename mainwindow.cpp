@@ -5,7 +5,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent, Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint), skype_was_killed(false)
 {
     /* Back-end */
-    //Sttings
+    //Settings
     settings = new QSettings("skype-mood.ini", QSettings::IniFormat, this);
 
     //History data
@@ -17,136 +17,16 @@ MainWindow::MainWindow(QWidget *parent)
     maindb.setUserName("root");
     maindb.setPassword("");
 
-    //Working out main.db path 
-    /*QString skype_maindb_path = settings->value("Skype/maindb").toString();
-    if(skype_maindb_path.isEmpty())
-    {
-        QSettings registry("HKEY_CURRENT_USER\\Software\\Skype\\Phone", QSettings::NativeFormat);
-        skype_maindb_path = registry.value("SkypePath").toString();
-    }
-    if(skype_maindb_path.isEmpty())
-    {
-        QMessageBox::warning(this, "Skype main.db not found", "Unable to automatically find Skype main.db!<br />Please choose it manually.");
-    }
-    else
-    {
-        int pos = skype_maindb_path.lastIndexOf('\\') + 1;
-        skype_maindb_path.remove(pos, skype_maindb_path.size() - pos);
-        skype_maindb_path.append("main.db");
-        QMessageBox::information(this, "path", skype_maindb_path);
-
-        QSettings registry("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders", QSettings::NativeFormat);
-
-        qDebug() << registry.value("AppData").toString();
-        //qDebug() << QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
-    }*/
-
-    /* Setting up GUI */
-    //Dialogs
-    dlg_menu = new MenuDialog(this);
-
-    //main.db path section
-    lab_maindb = new QLabel(tr("Skype account :"));
-    cb_maindb = new QComboBox;
-    cb_maindb->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    btn_maindb = new QPushButton(tr("Manual selection"));
-    layout_maindb = new QHBoxLayout;
-    layout_maindb->addWidget(lab_maindb);
-    layout_maindb->addWidget(cb_maindb);
-    layout_maindb->addWidget(btn_maindb);
-
-    //Separator
-    EntitledSeparator *mood_separator = new EntitledSeparator(tr("Mood message"));
-
-    //Mood message section
-    pte_mood = new TagsPlainTextEdit;
-    pte_mood->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
-    lab_mood_preview = new QLabel;
-    lab_mood_preview->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
-    lab_mood_preview->setWordWrap(true);
-    lab_mood_preview->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    contact_preview = new SkypeContactPreview;
-    layout_preview = new QVBoxLayout;
-    layout_preview->setContentsMargins(0, 0, 0, 0);
-    layout_preview->addWidget(lab_mood_preview);
-    layout_preview->addWidget(contact_preview);
-    layout_mood = new QHBoxLayout;
-    layout_mood->addWidget(pte_mood, 50);
-    layout_mood->addLayout(layout_preview, 50);
-    btn_apply = new QPushButton(tr("Apply"));
-
-    //Separator
-    EntitledSeparator *history_separator = new EntitledSeparator(tr("History"));
-
-    //History section
-    history_view = new QListView;
-    history_view->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Expanding);
-    history_view->setModel(history_model);
-    history_itemDelegate = new HtmlDelegate(this);
-    history_view->setItemDelegate(history_itemDelegate);
-    btn_history_push = new QToolButton;
-    btn_history_push->setToolTip(tr("Use as mood message"));
-    btn_history_push->setAutoRaise(true);
-    btn_history_push->setIconSize(QSize(24, 24));
-    btn_history_push->setIcon(QIcon(":img/push.png"));
-    btn_history_rm = new QToolButton;
-    btn_history_rm->setAutoRaise(true);
-    btn_history_rm->setToolTip(tr("Remove from history"));
-    btn_history_rm->setIconSize(QSize(24, 24));
-    btn_history_rm->setIcon(QIcon(":img/rm.png"));
-    btn_history_clear = new QToolButton;
-    btn_history_clear->setToolTip(tr("Clear history"));
-    btn_history_clear->setAutoRaise(true);
-    btn_history_clear->setIconSize(QSize(24, 24));
-    btn_history_clear->setIcon(QIcon(":img/clear.png"));
-    btn_menu = new QPushButton;
-    btn_menu->setIconSize(QSize(24, 24));
-    btn_menu->setIcon(QIcon(":img/gear.png"));
-    layout_history_btn = new QVBoxLayout;
-    layout_history_btn->setContentsMargins(0, 0, 0, 0);
-    layout_history_btn->addWidget(btn_history_push, 0, Qt::AlignCenter);
-    layout_history_btn->addWidget(btn_history_rm, 0, Qt::AlignCenter);
-    layout_history_btn->addWidget(btn_history_clear, 0, Qt::AlignCenter);
-    layout_history_btn->addStretch();
-    layout_history_btn->addWidget(btn_menu, 0, Qt::AlignCenter);
-    layout_history = new QHBoxLayout;
-    layout_history->addWidget(history_view);
-    layout_history->addLayout(layout_history_btn);
-    /*layout_history = new QGridLayout;
-    layout_history->addWidget(history_view, 0, 0, 3, 1);
-    layout_history->addWidget(btn_history_push, 0, 1, 1, 1);
-    layout_history->addWidget(btn_history_del, 1, 1, 1, 1);
-    layout_history->addWidget(btn_history_clear, 2, 1, 1, 1);*/
+    /* GUI */
+    //Title
+    setWindowTitle("Skype Richtext Mood Editor");
 
     //Filling the window
-    layout_main = new QVBoxLayout;
-    //layout_main->addWidget(lab_maindb, 1);
-    layout_main->addLayout(layout_maindb, 1);
-    layout_main->addWidget(mood_separator, 0);
-    layout_main->addLayout(layout_mood, 35);
-    layout_main->addWidget(btn_apply, 0);
-    layout_main->addWidget(history_separator, 0);
-    layout_main->addLayout(layout_history, 44);
-    QWidget *central_widget = new QWidget;
-    central_widget->setLayout(layout_main);
-
-    //Setting defaults
-    setWindowTitle("Skype Richtext Mood Editor");
+    setCentralWidget(initContent());
     disableEditing();
     resize(620, 390);
 
-    //Signal/slot connections
-    connect(pte_mood, SIGNAL(textChanged()), this, SLOT(onMoodTextChanged()));
-    connect(cb_maindb, SIGNAL(currentIndexChanged(int)), this, SLOT(onMaindbSelected(int)));
-    connect(btn_maindb, SIGNAL(clicked()), this, SLOT(browseMaindb()));
-    connect(btn_apply, SIGNAL(clicked()), this, SLOT(applyAndClose()));
-    connect(btn_history_push, SIGNAL(clicked()), this, SLOT(historyPushToMood()));
-    connect(btn_history_rm, SIGNAL(clicked()), this, SLOT(historyRemove()));
-    connect(btn_history_clear, SIGNAL(clicked()), this, SLOT(historyClear()));
-    connect(btn_menu, SIGNAL(clicked()), dlg_menu, SLOT(open()));
-
-    /* Showing and centering the window on the current screen */
-    setCentralWidget(central_widget);
+    //Centering the window on the current screen
     QDesktopWidget desktop_widget;
     QRect screen_geometry = desktop_widget.availableGeometry();
     move(screen_geometry.width() / 2 - width() / 2, screen_geometry.height() / 2 - height() / 2);
@@ -156,6 +36,135 @@ MainWindow::MainWindow(QWidget *parent)
     {
         QMessageBox::warning(this, tr("AppData/Skype not found"), tr("There is no Skype profile for this user."));
     }
+}
+
+MainWindow::~MainWindow()
+{
+    //Close the database connection
+    if(maindb.isOpen())
+    {
+        maindb.close();
+    }
+    QSqlDatabase::removeDatabase(maindb.connectionName());
+
+    //Save the history
+    settings->setValue("history/list", history_model->stringList());
+
+    //Restart Skype if we killed it
+    if(skype_was_killed)
+    {
+        QSettings registry("HKEY_CURRENT_USER\\Software\\Skype\\Phone", QSettings::NativeFormat);
+        if(!QProcess::startDetached(registry.value("SkypePath").toString().prepend('"').append('"')))
+        {
+            QMessageBox::critical(this, tr("Unable to start Skype"), tr("Skype has not been started, sorry."));
+        }
+    }
+}
+
+QWidget *MainWindow::initContent()
+{
+    /* Popup dialogs */
+    MenuDialog *dlg_menu = new MenuDialog(this);
+
+    /* Main window content */
+    //main.db path section
+    //lab_maindb = new QLabel(tr("Skype account :"));
+    cb_maindb = new QComboBox;
+    cb_maindb->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    connect(cb_maindb, SIGNAL(currentIndexChanged(int)), this, SLOT(onMaindbSelected(int)));
+    QPushButton *btn_maindb = new QPushButton(tr("Manual selection"));
+    connect(btn_maindb, SIGNAL(clicked()), this, SLOT(browseMaindb()));
+
+    QHBoxLayout *layout_maindb = new QHBoxLayout;
+    layout_maindb->addWidget(new QLabel(tr("Skype account :")));
+    layout_maindb->addWidget(cb_maindb);
+    layout_maindb->addWidget(btn_maindb);
+
+    //Separator
+    //EntitledSeparator *mood_separator = new EntitledSeparator(tr("Mood message"));
+
+    //Mood message section
+    pte_mood = new TagsPlainTextEdit;
+    pte_mood->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
+    connect(pte_mood, SIGNAL(textChanged()), this, SLOT(onMoodTextChanged()));
+
+    lab_mood_preview = new QLabel;
+    lab_mood_preview->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+    lab_mood_preview->setWordWrap(true);
+    lab_mood_preview->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    contact_preview = new SkypeContactPreview;
+
+    QVBoxLayout *layout_preview = new QVBoxLayout;
+    layout_preview->setContentsMargins(0, 0, 0, 0);
+    layout_preview->addWidget(lab_mood_preview);
+    layout_preview->addWidget(contact_preview);
+
+    QHBoxLayout *layout_mood = new QHBoxLayout;
+    layout_mood->addWidget(pte_mood, 50);
+    layout_mood->addLayout(layout_preview, 50);
+
+    btn_apply = new QPushButton(tr("Apply"));
+    connect(btn_apply, SIGNAL(clicked()), this, SLOT(applyAndClose()));
+
+    //Separator
+    //EntitledSeparator *history_separator = new EntitledSeparator(tr("History"));
+
+    //History section
+    history_view = new QListView;
+    history_view->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Expanding);
+    history_view->setModel(history_model);
+    //history_itemDelegate = new HtmlDelegate(this);
+    //history_view->setItemDelegate(history_itemDelegate);
+    history_view->setItemDelegate(new HtmlDelegate(this));
+
+    btn_history_push = new QToolButton;
+    btn_history_push->setToolTip(tr("Use as mood message"));
+    btn_history_push->setAutoRaise(true);
+    btn_history_push->setIconSize(QSize(24, 24));
+    btn_history_push->setIcon(QIcon(":img/push.png"));
+    connect(btn_history_push, SIGNAL(clicked()), this, SLOT(historyPushToMood()));
+    QToolButton *btn_history_rm = new QToolButton;
+    btn_history_rm->setAutoRaise(true);
+    btn_history_rm->setToolTip(tr("Remove from history"));
+    btn_history_rm->setIconSize(QSize(24, 24));
+    btn_history_rm->setIcon(QIcon(":img/rm.png"));
+    connect(btn_history_rm, SIGNAL(clicked()), this, SLOT(historyRemove()));
+    QToolButton *btn_history_clear = new QToolButton;
+    btn_history_clear->setToolTip(tr("Clear history"));
+    btn_history_clear->setAutoRaise(true);
+    btn_history_clear->setIconSize(QSize(24, 24));
+    btn_history_clear->setIcon(QIcon(":img/clear.png"));
+    connect(btn_history_clear, SIGNAL(clicked()), this, SLOT(historyClear()));
+
+    QPushButton *btn_menu = new QPushButton;
+    btn_menu->setIconSize(QSize(24, 24));
+    btn_menu->setIcon(QIcon(":img/gear.png"));
+    connect(btn_menu, SIGNAL(clicked()), dlg_menu, SLOT(open()));
+
+    QVBoxLayout *layout_history_btn = new QVBoxLayout;
+    layout_history_btn->setContentsMargins(0, 0, 0, 0);
+    layout_history_btn->addWidget(btn_history_push, 0, Qt::AlignCenter);
+    layout_history_btn->addWidget(btn_history_rm, 0, Qt::AlignCenter);
+    layout_history_btn->addWidget(btn_history_clear, 0, Qt::AlignCenter);
+    layout_history_btn->addStretch();
+    layout_history_btn->addWidget(btn_menu, 0, Qt::AlignCenter);
+
+    QHBoxLayout *layout_history = new QHBoxLayout;
+    layout_history->addWidget(history_view);
+    layout_history->addLayout(layout_history_btn);
+
+    //Filling the window
+    QVBoxLayout *layout_main = new QVBoxLayout;
+    layout_main->addLayout(layout_maindb, 1);
+    layout_main->addWidget(new EntitledSeparator(tr("Mood message")), 0);
+    layout_main->addLayout(layout_mood, 35);
+    layout_main->addWidget(btn_apply, 0);
+    layout_main->addWidget(new EntitledSeparator(tr("History")), 0);
+    layout_main->addLayout(layout_history, 44);
+
+    QWidget *container = new QWidget;
+    container->setLayout(layout_main);
+    return container;
 }
 
 void MainWindow::enableEditing()
@@ -244,11 +253,11 @@ QString MainWindow::encodeXMLEntities(QString str) const
     return str;
 }
 
-QString MainWindow::removeTags(QString str) const
+/*QString MainWindow::removeTags(QString str) const
 {
     str.remove(QRegularExpression("<[^>]+>", QRegularExpression::CaseInsensitiveOption | QRegularExpression::DotMatchesEverythingOption));
     return str;
-}
+}*/
 
 void MainWindow::browseMaindb()
 {
@@ -261,7 +270,7 @@ void MainWindow::browseMaindb()
     }
 }
 
-//This slot manages all of the data loading
+//This slot does all the data loading
 void MainWindow::onMaindbSelected(int index)
 {
     disableEditing();
@@ -353,7 +362,8 @@ void MainWindow::onMaindbSelected(int index)
                            pte_mood->setPlainText(mood_text);
 
                            //Set the mood text in the contact preview
-                           contact_preview->setMood(removeTags(mood_text));
+                           //contact_preview->setMood(removeTags(mood_text));
+                           contact_preview->setMood(mood_text);
 
                            //Add current mood into history
                            if(!mood_text.isEmpty())
@@ -410,8 +420,10 @@ void MainWindow::onMaindbSelected(int index)
 //Links text box with preview
 void MainWindow::onMoodTextChanged()
 {
+    //FIXME Filter Skype size
     lab_mood_preview->setText(pte_mood->toPlainText());
-    contact_preview->setMood(removeTags(pte_mood->toPlainText()));
+    //contact_preview->setMood(removeTags(pte_mood->toPlainText()));
+    contact_preview->setMood(pte_mood->toPlainText());
 }
 
 void MainWindow::applyAndClose()
@@ -452,28 +464,5 @@ void MainWindow::historyClear()
     if(QMessageBox::question(this, tr("Clear history"), tr("Are you sure you want to clear the history?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes)
     {
         history_model->removeRows(0, history_model->rowCount());
-    }
-}
-
-MainWindow::~MainWindow()
-{
-    //Close the database connection
-    if(maindb.isOpen())
-    {
-        maindb.close();
-    }
-    QSqlDatabase::removeDatabase(maindb.connectionName());
-
-    //Save the history
-    settings->setValue("history/list", history_model->stringList());
-
-    //Restart Skype if we killed it
-    if(skype_was_killed)
-    {
-        QSettings registry("HKEY_CURRENT_USER\\Software\\Skype\\Phone", QSettings::NativeFormat);
-        if(!QProcess::startDetached(registry.value("SkypePath").toString().prepend('"').append('"')))
-        {
-            QMessageBox::critical(this, tr("Unable to start Skype"), tr("Skype has not been started, sorry."));
-        }
     }
 }

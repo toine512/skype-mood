@@ -50,43 +50,53 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-protected slots:
+private slots:
+    /* GUI */
     void enableEditing();
     void disableEditing();
+    /* Data */
+    //main.db
     void browseMaindb();
-    void onMaindbSelected(int index);
+    void onMaindbSelected(int index); //This slot does all the data loading
+    //Mood
     void onMoodTextChanged();
+    //General
     void applyAndClose();
+    //History
     void historyPushToMood();
     void historyRemove();
     void historyClear();
 
-protected:
+private:
     bool listMaindb();
-    QString decodeXMLEntities(QString str) const;
-    QString encodeXMLEntities(QString str) const;
-    QString removeTags(QString str) const;
 
     bool skype_was_killed;
 
-    QSettings *settings;
+protected:
+    QWidget * initContent();
+    //Include these in the proper class
+    QString decodeXMLEntities(QString str) const;
+    QString encodeXMLEntities(QString str) const;
+    //QString removeTags(QString str) const; //move this
 
-    QLabel *lab_maindb, *lab_mood_preview;
+    QSettings *settings;
+    QSqlDatabase maindb;
+    QStringListModel *history_model;
+
+    QLabel /**lab_maindb, */*lab_mood_preview;
     QComboBox *cb_maindb;
-    QPushButton *btn_maindb, *btn_apply, *btn_menu;
+    QPushButton /**btn_maindb, */*btn_apply/*, *btn_menu*/;
     TagsPlainTextEdit *pte_mood;
     SkypeContactPreview *contact_preview;
     QListView *history_view;
-    QToolButton *btn_history_push, *btn_history_rm, *btn_history_clear;
-    QStringListModel *history_model;
-    HtmlDelegate *history_itemDelegate;
-    MenuDialog *dlg_menu;
+    QToolButton *btn_history_push/*, *btn_history_rm, *btn_history_clear*/;
 
-    QVBoxLayout *layout_main, *layout_preview, *layout_history_btn;
+    //HtmlDelegate *history_itemDelegate;
+    //MenuDialog *dlg_menu;
+
+    /*QVBoxLayout *layout_main, *layout_preview, *layout_history_btn;
     QHBoxLayout *layout_maindb, *layout_mood, *layout_history;
-    //QGridLayout *layout_history;
-
-    QSqlDatabase maindb;
+    QGridLayout *layout_history;*/
 };
 
 #endif // MAINWINDOW_H

@@ -180,17 +180,17 @@
         <translation>Langue :</translation>
     </message>
     <message>
-        <location filename="menudialog.cpp" line="31"/>
+        <location filename="menudialog.cpp" line="32"/>
         <source>Menu</source>
         <translation>Menu</translation>
     </message>
     <message>
-        <location filename="menudialog.cpp" line="37"/>
+        <location filename="menudialog.cpp" line="38"/>
         <source>Translation</source>
         <translation>Traduction</translation>
     </message>
     <message>
-        <location filename="menudialog.cpp" line="37"/>
+        <location filename="menudialog.cpp" line="38"/>
         <source>Please restart the application for the change to take effect.</source>
         <translation>Veuillez redémarrer l&apos;application pour que le changement prenne effet.</translation>
     </message>
@@ -228,32 +228,37 @@
         <translation>Clignotant</translation>
     </message>
     <message>
-        <location filename="tagsplaintextedit.cpp" line="32"/>
+        <location filename="tagsplaintextedit.cpp" line="33"/>
+        <source>Center</source>
+        <translation>Centré</translation>
+    </message>
+    <message>
+        <location filename="tagsplaintextedit.cpp" line="36"/>
         <source>New Line</source>
         <translation>Sauter une ligne</translation>
     </message>
     <message>
-        <location filename="tagsplaintextedit.cpp" line="41"/>
+        <location filename="tagsplaintextedit.cpp" line="45"/>
         <source>Font size</source>
         <translation>Taille de la police</translation>
     </message>
     <message>
-        <location filename="tagsplaintextedit.cpp" line="47"/>
+        <location filename="tagsplaintextedit.cpp" line="51"/>
         <source>Color</source>
         <translation>Couleur du texte</translation>
     </message>
     <message>
-        <location filename="tagsplaintextedit.cpp" line="84"/>
+        <location filename="tagsplaintextedit.cpp" line="88"/>
         <source>Hypertext link target</source>
         <translation>Cible du lien hypertexte</translation>
     </message>
     <message>
-        <location filename="tagsplaintextedit.cpp" line="84"/>
+        <location filename="tagsplaintextedit.cpp" line="88"/>
         <source>URL:</source>
         <translation>URL :</translation>
     </message>
     <message>
-        <location filename="tagsplaintextedit.cpp" line="116"/>
+        <location filename="tagsplaintextedit.cpp" line="124"/>
         <source>Font color</source>
         <translation>Couleur du texte</translation>
     </message>
@@ -262,8 +267,8 @@
     <name>meta</name>
     <message>
         <location filename="mainwindow.cpp" line="69"/>
-        <location filename="menudialog.cpp" line="56"/>
-        <location filename="menudialog.cpp" line="58"/>
+        <location filename="menudialog.cpp" line="57"/>
+        <location filename="menudialog.cpp" line="59"/>
         <source>language</source>
         <translation>Français</translation>
     </message>

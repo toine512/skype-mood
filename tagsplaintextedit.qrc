@@ -9,5 +9,6 @@
         <file alias="underline.png">img/lc_underline.png</file>
         <file alias="lightning.png">img/lc_symbolshapes.lightning.png</file>
         <file alias="fontheight.png">img/lc_fontheight.png</file>
+        <file alias="center.png">img/lc_centerpara.png</file>
     </qresource>
 </RCC>

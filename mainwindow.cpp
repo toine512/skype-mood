@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     //Filling the window
     setCentralWidget(initContent());
     disableEditing();
-    resize(620, 390);
+    resize(640, 390);
 
     //Centering the window on the current screen
     QDesktopWidget desktop_widget;
@@ -113,8 +113,8 @@ QWidget *MainWindow::initContent()
     layout_preview->addWidget(contact_preview);
 
     QHBoxLayout *layout_mood = new QHBoxLayout;
-    layout_mood->addWidget(pte_mood, 50);
-    layout_mood->addLayout(layout_preview, 50);
+    layout_mood->addWidget(pte_mood, 56);
+    layout_mood->addLayout(layout_preview, 44);
 
     btn_apply = new QPushButton(tr("Apply"));
     connect(btn_apply, SIGNAL(clicked()), this, SLOT(applyAndClose()));

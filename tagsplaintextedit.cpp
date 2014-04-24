@@ -29,6 +29,10 @@ TagsPlainTextEdit::TagsPlainTextEdit(QWidget *parent) :
     act = new QAction(QIcon(":editor_icons/lightning.png"), tr("Blink"), this);
     act->setData("blink");
     bar->addAction(act);
+    bar->addSeparator();
+    act = new QAction(QIcon(":editor_icons/center.png"), tr("Center"), this);
+    act->setData("center");
+    bar->addAction(act);
     act = new QAction(QIcon(":editor_icons/pilcrow.png"), tr("New Line"), this);
     act->setData("br");
     bar->addAction(act);
@@ -86,6 +90,10 @@ void TagsPlainTextEdit::processAction(QAction *action)
         {
             insertTags(QString("<a href=\"%1\">").arg(QString(link.toEncoded(QUrl::FullyEncoded))), "</a>");
         }
+    }
+    else if(tag == "center")
+    {
+        insertTags("<center>", "</center>");
     }
     else if(tag == "br")
     {

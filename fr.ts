@@ -160,22 +160,37 @@
 <context>
     <name>MenuDialog</name>
     <message>
-        <location filename="menudialog.cpp" line="22"/>
+        <location filename="menudialog.cpp" line="6"/>
+        <source>&lt;p align=&quot;center&quot;&gt;&lt;b&gt;Skype Richtext Mood Editor v. %1&lt;/b&gt;&lt;br /&gt;Copyright © 2014 toine512&lt;br /&gt;Compiled on [%2] [%3]&lt;br /&gt;&lt;br /&gt;This software is distributed under &lt;a href=&quot;https://www.gnu.org/licenses/gpl.html&quot;&gt;GNU General Public License v. 3&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Written in C++ using &lt;a href=&quot;http://qt-project.org/&quot;&gt;Qt&lt;/a&gt; 5.2 (&lt;a href=&quot;https://www.gnu.org/licenses/gpl.html&quot;&gt;GNU GPL v. 3&lt;/a&gt;).&lt;br /&gt;Uses &lt;a href=&quot;http://brsev.deviantart.com/gallery/#/d24gow2&quot;&gt;Token icon set&lt;/a&gt; by &lt;a href=&quot;http://brsev.com/&quot;&gt;Evan Brooks&lt;/a&gt;.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="menudialog.cpp" line="12"/>
+        <source>About Qt</source>
+        <translation>À propos de Qt</translation>
+    </message>
+    <message>
+        <location filename="menudialog.cpp" line="15"/>
+        <source>Close</source>
+        <translation>Fermer</translation>
+    </message>
+    <message>
+        <location filename="menudialog.cpp" line="25"/>
         <source>Language:</source>
         <translation>Langue :</translation>
     </message>
     <message>
-        <location filename="menudialog.cpp" line="28"/>
+        <location filename="menudialog.cpp" line="31"/>
         <source>Menu</source>
         <translation>Menu</translation>
     </message>
     <message>
-        <location filename="menudialog.cpp" line="34"/>
+        <location filename="menudialog.cpp" line="37"/>
         <source>Translation</source>
         <translation>Traduction</translation>
     </message>
     <message>
-        <location filename="menudialog.cpp" line="34"/>
+        <location filename="menudialog.cpp" line="37"/>
         <source>Please restart the application for the change to take effect.</source>
         <translation>Veuillez redémarrer l&apos;application pour que le changement prenne effet.</translation>
     </message>
@@ -247,8 +262,8 @@
     <name>meta</name>
     <message>
         <location filename="mainwindow.cpp" line="69"/>
-        <location filename="menudialog.cpp" line="53"/>
-        <location filename="menudialog.cpp" line="55"/>
+        <location filename="menudialog.cpp" line="56"/>
+        <location filename="menudialog.cpp" line="58"/>
         <source>language</source>
         <translation>Français</translation>
     </message>

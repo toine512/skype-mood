@@ -1,6 +1,10 @@
 #ifndef EDITABLEINTSIZECOMBOBOX_H
 #define EDITABLEINTSIZECOMBOBOX_H
 
+#include <cmath>
+#define countIntDigits(i) ((i > 0) ? (((unsigned int)log10((i))) + 1) : 1)
+#define computeBoxWidth(d) (20 + (d) * 10)
+
 #include <QString>
 #include <QStringList>
 

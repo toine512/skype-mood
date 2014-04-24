@@ -6,6 +6,8 @@
 #include <QTextCursor>
 #include <QToolBar>
 #include <QAction>
+#include <QLabel>
+#include <QPixmap>
 #include <QVBoxLayout>
 #include <QMessageBox>
 #include <QInputDialog>

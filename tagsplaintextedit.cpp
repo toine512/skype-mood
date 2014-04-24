@@ -8,32 +8,43 @@ TagsPlainTextEdit::TagsPlainTextEdit(QWidget *parent) :
     connect(pte, SIGNAL(textChanged()), this, SIGNAL(textChanged()));
 
     QToolBar *bar = new QToolBar;
-    QAction *act = new QAction(tr("Link"), this);
+    bar->setIconSize(QSize(20, 20));
+    bar->setStyleSheet("spacing: 2px;");
+    QAction *act = new QAction(QIcon(":editor_icons/linkdialog.png"), tr("Link"), this);
     act->setData("a");
     bar->addAction(act);
-    act = new QAction(tr("Bold"), this);
+    bar->addSeparator();
+    act = new QAction(QIcon(":editor_icons/bold.png"), tr("Bold"), this);
     act->setData("b");
     bar->addAction(act);
-    act = new QAction(tr("Italic"), this);
+    act = new QAction(QIcon(":editor_icons/italic.png"), tr("Italic"), this);
     act->setData("i");
     bar->addAction(act);
-    act = new QAction(tr("Underlined"), this);
+    act = new QAction(QIcon(":editor_icons/underline.png"), tr("Underlined"), this);
     act->setData("u");
     bar->addAction(act);
-    act = new QAction(tr("Strikethrough"), this);
+    act = new QAction(QIcon(":editor_icons/strikeout.png"), tr("Strikethrough"), this);
     act->setData("s");
     bar->addAction(act);
-    act = new QAction(tr("Blink"), this);
+    act = new QAction(QIcon(":editor_icons/lightning.png"), tr("Blink"), this);
     act->setData("blink");
     bar->addAction(act);
-    act = new QAction(tr("New Line"), this);
+    act = new QAction(QIcon(":editor_icons/pilcrow.png"), tr("New Line"), this);
     act->setData("br");
     bar->addAction(act);
+    bar->addSeparator();
     /*FontListComboBox *cb_font = new FontListComboBox(11, this);
     bar->addWidget(cb_font);*/
-    EditableIntSizeComboBox *cb_size = new EditableIntSizeComboBox(QStringList() << "2" << "4" << "6" << "8" << "12", 1, 99, this);
+    EditableIntSizeComboBox *cb_size = new EditableIntSizeComboBox(QStringList() << "4" << "6" << "7" << "8" << "9" << "10" << "11" << "12" << "13" << "14" << "15" << "16" << "17" << "18" << "20", 1, 99, this);
+    QLabel *lab_size = new QLabel;
+    lab_size->setBuddy(cb_size);
+    lab_size->setToolTip(tr("Font size"));
+    lab_size->setPixmap(QPixmap(":editor_icons/fontheight.png"));
+    lab_size->setScaledContents(true);
+    lab_size->setFixedSize(cb_size->height(), cb_size->height());
+    bar->addWidget(lab_size);
     bar->addWidget(cb_size);
-    act = new QAction(tr("Color"), this);
+    act = new QAction(QIcon(":editor_icons/fontcolor.png"), tr("Color"), this);
     act->setData("color");
     bar->addAction(act);
 
@@ -43,6 +54,7 @@ TagsPlainTextEdit::TagsPlainTextEdit(QWidget *parent) :
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
     layout->addWidget(bar);
     layout->addWidget(pte);
     setLayout(layout);

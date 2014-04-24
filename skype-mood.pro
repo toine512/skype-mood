@@ -35,4 +35,5 @@ HEADERS  += mainwindow.h \
 TRANSLATIONS  += fr.ts
 
 RESOURCES += \
-    ressources.qrc
+    ressources.qrc \
+    tagsplaintextedit.qrc

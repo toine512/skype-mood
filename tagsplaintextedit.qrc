@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/editor_icons">
+        <file alias="bold.png">img/lc_bold.png</file>
+        <file alias="pilcrow.png">img/lc_controlcodes.png</file>
+        <file alias="fontcolor.png">img/lc_fontcolor.png</file>
+        <file alias="linkdialog.png">img/lc_hyperlinkdialog.png</file>
+        <file alias="italic.png">img/lc_italic.png</file>
+        <file alias="strikeout.png">img/lc_strikeout.png</file>
+        <file alias="underline.png">img/lc_underline.png</file>
+        <file alias="lightning.png">img/lc_symbolshapes.lightning.png</file>
+        <file alias="fontheight.png">img/lc_fontheight.png</file>
+    </qresource>
+</RCC>

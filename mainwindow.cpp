@@ -55,13 +55,16 @@ MainWindow::MainWindow(QWidget *parent)
     layout_maindb->addWidget(cb_maindb);
     layout_maindb->addWidget(btn_maindb);
 
+    //Separator
+    EntitledSeparator *mood_separator = new EntitledSeparator(tr("Mood message"));
+
     //Mood message section
     pte_mood = new TagsPlainTextEdit;
     pte_mood->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
     lab_mood_preview = new QLabel;
     lab_mood_preview->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     lab_mood_preview->setWordWrap(true);
-    lab_mood_preview->setAlignment(Qt::AlignLeft | Qt::AlignBottom);
+    lab_mood_preview->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     contact_preview = new SkypeContactPreview;
     layout_preview = new QVBoxLayout;
     layout_preview->setContentsMargins(0, 0, 0, 0);
@@ -119,6 +122,7 @@ MainWindow::MainWindow(QWidget *parent)
     layout_main = new QVBoxLayout;
     //layout_main->addWidget(lab_maindb, 1);
     layout_main->addLayout(layout_maindb, 1);
+    layout_main->addWidget(mood_separator, 0);
     layout_main->addLayout(layout_mood, 35);
     layout_main->addWidget(btn_apply, 0);
     layout_main->addWidget(history_separator, 0);
@@ -129,7 +133,7 @@ MainWindow::MainWindow(QWidget *parent)
     //Setting defaults
     setWindowTitle("Skype Richtext Mood Editor");
     disableEditing();
-    resize(550, 380);
+    resize(620, 390);
 
     //Signal/slot connections
     connect(pte_mood, SIGNAL(textChanged()), this, SLOT(onMoodTextChanged()));

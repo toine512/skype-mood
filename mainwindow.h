@@ -77,9 +77,6 @@ private:
 protected:
     void initTranslator();
     QWidget * initContent();
-    //Include these in the right class
-    QString decodeXMLEntities(QString str) const;
-    QString encodeXMLEntities(QString str) const;
     //QString removeTags(QString str) const; //move this
 
     QSettings *settings;

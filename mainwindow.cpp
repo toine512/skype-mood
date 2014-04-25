@@ -104,6 +104,7 @@ QWidget *MainWindow::initContent()
     lab_mood_preview = new QLabel;
     lab_mood_preview->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     lab_mood_preview->setWordWrap(true);
+    lab_mood_preview->setOpenExternalLinks(true);
     lab_mood_preview->setAlignment(Qt::AlignLeft | Qt::AlignBottom);
     contact_preview = new SkypeContactPreview;
 
@@ -241,26 +242,6 @@ bool MainWindow::listMaindb()
     return found_something;
 }
 
-QString MainWindow::decodeXMLEntities(QString str) const
-{
-    str.replace("&amp;", "&");
-    str.replace("&apos;", "'");
-    str.replace("&quot;", "\"");
-    /*str.replace("&lt;", "<");
-    str.replace("&gt;", ">");*/
-    return str;
-}
-
-QString MainWindow::encodeXMLEntities(QString str) const
-{
-    str.replace("&", "&amp;");
-    str.replace("'", "&apos;");
-    //str.replace("\"", "&quot;"); //FIXME VERY DANGEROUS
-    /*str.replace("<", "&lt;");
-    str.replace(">", "&gt;");*/
-    return str;
-}
-
 /*QString MainWindow::removeTags(QString str) const
 {
     str.remove(QRegularExpression("<[^>]+>", QRegularExpression::CaseInsensitiveOption | QRegularExpression::DotMatchesEverythingOption));
@@ -360,7 +341,8 @@ void MainWindow::onMaindbSelected(int index)
                            }
 
                            /* Mood message */
-                           QString mood_text(decodeXMLEntities(query.value("rich_mood_text").toString()));
+                           QString mood_text(query.value("rich_mood_text").toString());
+                           TagsPlainTextEdit::decodeXMLEntities(mood_text);
                            uint mood_time = query.value("mood_timestamp").toUInt();
 
                            //Fill the text box with the current mood
@@ -436,9 +418,9 @@ void MainWindow::applyAndClose()
         QSqlQuery query(maindb);
         query.prepare("UPDATE Accounts SET mood_timestamp = ?, rich_mood_text = ? WHERE id = 1");
         query.bindValue(0, QDateTime::currentDateTime().toTime_t());
-        query.bindValue(1, encodeXMLEntities(pte_mood->toPlainText()));
+        query.bindValue(1, TagsPlainTextEdit::filterTags(pte_mood->toPlainText()));
         query.exec();
-        QMessageBox::information(this, "write", encodeXMLEntities(pte_mood->toPlainText()));
+        qDebug() << TagsPlainTextEdit::filterTags(pte_mood->toPlainText());
     }
     //UPDATE "main"."Accounts" SET "mood_timestamp" = ?1, "rich_mood_text" = ?2 WHERE  "id" = 1
     close();

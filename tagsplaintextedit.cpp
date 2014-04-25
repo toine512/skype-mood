@@ -82,7 +82,7 @@ void TagsPlainTextEdit::encodeXMLEntities(QString &str)
 {
     str.replace("&", "&amp;");
     str.replace("'", "&apos;");
-    str.replace("\"", "&quot;"); //FIXME VERY DANGEROUS
+    str.replace("\"", "&quot;");
     str.replace("<", "&lt;");
     str.replace(">", "&gt;");
 }

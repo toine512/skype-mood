@@ -19,6 +19,8 @@
 #include <QGridLayout>
 #include <QMessageBox>
 #include <QComboBox>
+#include <QFrame>
+#include "entitledseparator.h"
 
 class MenuDialog : public QDialog
 {

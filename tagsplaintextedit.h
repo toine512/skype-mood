@@ -25,6 +25,9 @@ class TagsPlainTextEdit : public QWidget
 public:
     explicit TagsPlainTextEdit(QWidget *parent = 0);
     QString toPlainText();
+    static void decodeXMLEntities(QString &str);
+    static void encodeXMLEntities(QString &str);
+    static QString filterTags(const QString &input);
 
 public slots:
     void clear();

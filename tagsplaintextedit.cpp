@@ -69,6 +69,51 @@ QString TagsPlainTextEdit::toPlainText()
     return pte->toPlainText();
 }
 
+void TagsPlainTextEdit::decodeXMLEntities(QString &str)
+{
+    str.replace("&amp;", "&");
+    str.replace("&apos;", "'");
+    str.replace("&quot;", "\"");
+    str.replace("&lt;", "<");
+    str.replace("&gt;", ">");
+}
+
+void TagsPlainTextEdit::encodeXMLEntities(QString &str)
+{
+    str.replace("&", "&amp;");
+    str.replace("'", "&apos;");
+    str.replace("\"", "&quot;"); //FIXME VERY DANGEROUS
+    str.replace("<", "&lt;");
+    str.replace(">", "&gt;");
+}
+
+QString TagsPlainTextEdit::filterTags(const QString &input)
+{
+    QString filtered;
+    QRegularExpression regex("(<(?:(?:/?(?:[biusa]|blink|center|font))|br ?/|a href=\".*\"|font (?: ?size=\"[0-9]*\" ?| ?color=\"#[0-9a-fA-F]{6}\" ?)*)>)", QRegularExpression::CaseInsensitiveOption);
+    QRegularExpressionMatchIterator i = regex.globalMatch(input, 0, QRegularExpression::NormalMatch, QRegularExpression::NoMatchOption);
+    int offset = 0;
+    while(i.hasNext())
+    {
+        QRegularExpressionMatch match = i.next();
+        int pos = match.capturedStart(1);
+        QString to_encode = input.mid(offset, pos - offset);
+        encodeXMLEntities(to_encode);
+        filtered.append(to_encode);
+        filtered.append(match.captured(1));
+        offset = pos + match.capturedLength(1);
+
+    }
+    //When there's no tag at all or when all tags have been filtered
+    if(offset < input.size())
+    {
+        QString to_encode = input.mid(offset, -1);
+        encodeXMLEntities(to_encode);
+        filtered.append(to_encode);
+    }
+    return filtered;
+}
+
 void TagsPlainTextEdit::clear()
 {
     pte->clear();

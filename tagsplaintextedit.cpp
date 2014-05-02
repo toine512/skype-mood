@@ -90,7 +90,7 @@ void TagsPlainTextEdit::encodeXMLEntities(QString &str)
 QString TagsPlainTextEdit::filterTags(const QString &input)
 {
     QString filtered;
-    QRegularExpression regex("(<(?:(?:/?(?:[biusa]|blink|center|font))|br ?/|a href=\".*\"|font (?: ?size=\"[0-9]*\" ?| ?color=\"#[0-9a-fA-F]{6}\" ?)*)>)", QRegularExpression::CaseInsensitiveOption);
+    QRegularExpression regex("(<(?:(?:/?(?:[biusa]|blink|center|SS|font))|br ?/|a href=\".*\"|SS type=\".*\"|font (?: ?size=\"[0-9]*\" ?| ?color=\"#[0-9a-fA-F]{6}\" ?)*)>)", QRegularExpression::CaseInsensitiveOption);
     QRegularExpressionMatchIterator i = regex.globalMatch(input, 0, QRegularExpression::NormalMatch, QRegularExpression::NoMatchOption);
     int offset = 0;
     while(i.hasNext())

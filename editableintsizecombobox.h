@@ -22,10 +22,11 @@ public:
     explicit EditableIntSizeComboBox(const QStringList &default_values = DEFAULT_SIZE_LIST, int range_bottom = 1, int range_top = 99, QWidget *parent = 0);
 
 signals:
-    void sizeSelected(const QString &);
+    void sizeSelected(const QString &size);
 
 private slots:
     void onReturnPressed();
+    void emitSizeSelectedProxy(const QString &size, bool return_pressed = false);
 };
 
 #endif // EDITABLEINTSIZECOMBOBOX_H

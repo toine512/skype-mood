@@ -70,14 +70,16 @@ private slots:
     void historyClear();
 
 private:
+    /* Init functions */
+    bool findSkype();
+    QWidget * initContent();
     bool listMaindb();
 
+    QString skype_path;
     bool skype_was_killed;
 
 protected:
     void initTranslator();
-    QWidget * initContent();
-    //QString removeTags(QString str) const; //move this
 
     QSettings *settings;
     QSqlDatabase maindb;

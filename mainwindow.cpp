@@ -2,7 +2,7 @@
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent, Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint), skype_was_killed(false)
+    : QMainWindow(parent, Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint), skype_path(QString()), skype_was_killed(false)
 {
     /* Back-end */
     //Settings
@@ -10,6 +10,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Translation
     initTranslator();
+
+    //Get Skype path
+    if(!findSkype())
+    {
+        QMessageBox::warning(this, tr("Skype not found"), tr("Skype executable not found, some features won't work."));
+    }
 
     //History data
     history_model = new QStringListModel(settings->value("history/list").toStringList(), this);
@@ -54,16 +60,16 @@ MainWindow::~MainWindow()
     settings->setValue("history/list", history_model->stringList());
 
     //Restart Skype if we killed it
-    if(skype_was_killed)
+    if(skype_was_killed && !skype_path.isEmpty())
     {
-        QSettings registry("HKEY_CURRENT_USER\\Software\\Skype\\Phone", QSettings::NativeFormat);
-        if(!QProcess::startDetached(registry.value("SkypePath").toString().prepend('"').append('"')))
+        if(!QProcess::startDetached(skype_path, QStringList("/NOSPLASH")))
         {
             QMessageBox::critical(this, tr("Unable to start Skype"), tr("Skype has not been started, sorry."));
         }
     }
 }
 
+/* Init functions */
 void MainWindow::initTranslator()
 {
     Q_UNUSED(QT_TRANSLATE_NOOP("meta", "language"));
@@ -76,6 +82,29 @@ void MainWindow::initTranslator()
         qApp->installTranslator(tr);
         settings->setValue("ui/lang", path);
     }
+}
+
+bool MainWindow::findSkype()
+{
+    bool found = false;
+    QSettings registry("HKEY_CURRENT_USER\\Software\\Skype\\Phone", QSettings::NativeFormat);
+    QVariant path  = registry.value("SkypePath");
+    if(path.isValid())
+    {
+       skype_path = path.toString().prepend('"').append('"');
+       found = true;
+    }
+    else
+    {
+        QSettings registry("HKEY_LOCAL_MACHINE\\Software\\Skype\\Phone", QSettings::NativeFormat);
+        QVariant path  = registry.value("SkypePath");
+        if(path.isValid())
+        {
+           skype_path = path.toString().prepend('"').append('"');
+           found = true;
+        }
+    }
+    return found;
 }
 
 QWidget *MainWindow::initContent()
@@ -176,36 +205,6 @@ QWidget *MainWindow::initContent()
     return container;
 }
 
-void MainWindow::enableEditing()
-{
-    pte_mood->setEnabled(true);
-    contact_preview->setVisible(true);
-    btn_history_push->setEnabled(true);
-    if(skype_was_killed)
-    {
-        btn_apply->setText(tr("Apply and start Skype"));
-    }
-    else
-    {
-        btn_apply->setText(tr("Apply"));
-    }
-}
-
-void MainWindow::disableEditing()
-{
-    pte_mood->setDisabled(true);
-    contact_preview->setVisible(false);
-    btn_history_push->setDisabled(true);
-    if(skype_was_killed)
-    {
-        btn_apply->setText(tr("Close and start Skype"));
-    }
-    else
-    {
-        btn_apply->setText(tr("Close"));
-    }
-}
-
 //Returns true if some database was found, false otherwise
 bool MainWindow::listMaindb()
 {
@@ -242,12 +241,38 @@ bool MainWindow::listMaindb()
     return found_something;
 }
 
-/*QString MainWindow::removeTags(QString str) const
+/* GUI locking */
+void MainWindow::enableEditing()
 {
-    str.remove(QRegularExpression("<[^>]+>", QRegularExpression::CaseInsensitiveOption | QRegularExpression::DotMatchesEverythingOption));
-    return str;
-}*/
+    pte_mood->setEnabled(true);
+    contact_preview->setVisible(true);
+    btn_history_push->setEnabled(true);
+    if(skype_was_killed)
+    {
+        btn_apply->setText(tr("Apply and start Skype"));
+    }
+    else
+    {
+        btn_apply->setText(tr("Apply"));
+    }
+}
 
+void MainWindow::disableEditing()
+{
+    pte_mood->setDisabled(true);
+    contact_preview->setVisible(false);
+    btn_history_push->setDisabled(true);
+    if(skype_was_killed)
+    {
+        btn_apply->setText(tr("Close and start Skype"));
+    }
+    else
+    {
+        btn_apply->setText(tr("Close"));
+    }
+}
+
+/* Dialogs */
 void MainWindow::browseMaindb()
 {
     QString maindb = QFileDialog::getOpenFileName(this, tr("Choose a Skype user's main.db"), QString(), tr("Skype user database (main.db);;Any file (*.*)"));
@@ -259,6 +284,7 @@ void MainWindow::browseMaindb()
     }
 }
 
+/* Data */
 //This slot does all the data loading
 void MainWindow::onMaindbSelected(int index)
 {
@@ -280,10 +306,18 @@ void MainWindow::onMaindbSelected(int index)
             if(QMessageBox::warning(this, tr("main.db locked"), tr("The database is locked by Skype!"), tr("Exit Skype manually"), tr("Exit Skype for me"), QString(), 1, 0) == 1) //Dialog box returns 1 when auto-exit Skype is pressed
             {
                 //If the user chose to auto-exit Skype
-                if(QProcess::execute("taskkill", QStringList() << "/im" << "Skype.exe") == 0)
+                if(!skype_path.isEmpty()) //Best method to exit Skype
                 {
-                    skype_was_killed = true; //Used in the destructor to restart Skype
-                    //Waits a maximum of 15 sec (default for MAINDB_LOCK_TIMEOUT) for the lock to be released
+                    skype_was_killed = QProcess::execute(skype_path, QStringList("/SHUTDOWN")) == 0;
+                    //Also used in the destructor to restart Skype
+                }
+                if(!skype_was_killed) //Fallback
+                {
+                    skype_was_killed = QProcess::execute("taskkill", QStringList() << "/im" << "Skype.exe") == 0;
+                }
+                if(skype_was_killed)
+                {
+                    //Waits a maximum of 15 sec (default of MAINDB_LOCK_TIMEOUT) for the lock to be released
                     ProgressDialog *dlg_progress = new ProgressDialog(this);
                     dlg_progress->open();
                     bool unlocked = false;
@@ -406,9 +440,11 @@ void MainWindow::onMaindbSelected(int index)
 //Links text box with preview
 void MainWindow::onMoodTextChanged()
 {
-    //FIXME Filter Skype size
-    lab_mood_preview->setText(pte_mood->toPlainText());
-    contact_preview->setMood(pte_mood->toPlainText());
+    QString mood = TagsPlainTextEdit::filterTags(pte_mood->toPlainText());
+    contact_preview->setMood(mood);
+    //Convert <font size> to typographic points for the preview since Skype doesn't follow the HTML standard
+    mood.replace(QRegularExpression("<font ([^<>]*)size=\"([0-9]*)\"([^<>]*)>", QRegularExpression::CaseInsensitiveOption), "<font \\1style=\"font-size: \\2pt\"\\3>");
+    lab_mood_preview->setText(mood);
 }
 
 void MainWindow::applyAndClose()

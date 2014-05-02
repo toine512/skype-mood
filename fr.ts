@@ -246,7 +246,7 @@
     <message>
         <location filename="tagsplaintextedit.cpp" line="45"/>
         <source>Font size</source>
-        <translation>Taille de la police</translation>
+        <translation>Hauteur du texte</translation>
     </message>
     <message>
         <location filename="tagsplaintextedit.cpp" line="51"/>

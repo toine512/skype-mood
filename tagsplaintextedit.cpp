@@ -52,6 +52,13 @@ TagsPlainTextEdit::TagsPlainTextEdit(QWidget *parent) :
     act->setData("color");
     bar->addAction(act);
 
+    QToolButton *btn = new QToolButton(this);
+    btn->setMenu(new EmoticonMenu(this));
+    btn->setPopupMode(QToolButton::InstantPopup);
+    btn->setIcon(EmoticonMenu::getIcon());
+    btn->setIconSize(QSize(20, 20));
+    bar->addWidget(btn);
+
     connect(bar, SIGNAL(actionTriggered(QAction *)), this, SLOT(processAction(QAction *)));
     //connect(cb_font, SIGNAL(activated(const QString &)), this, SLOT(processFontFace(const QString &)));
     connect(cb_size, SIGNAL(sizeSelected(const QString &)), this, SLOT(processFontSize(const QString &)));

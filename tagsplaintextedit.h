@@ -6,6 +6,7 @@
 #include <QTextCursor>
 #include <QToolBar>
 #include <QAction>
+#include <QToolButton>
 #include <QLabel>
 #include <QPixmap>
 #include <QVBoxLayout>
@@ -17,6 +18,7 @@
 
 #include "editableintsizecombobox.h"
 //#include "fontlistcombobox.h"
+#include "emoticonmenu.h"
 
 class TagsPlainTextEdit : public QWidget
 {

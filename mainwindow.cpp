@@ -131,6 +131,8 @@ QWidget *MainWindow::initContent()
     connect(pte_mood, SIGNAL(textChanged()), this, SLOT(onMoodTextChanged()));
 
     lab_mood_preview = new QLabel;
+    //Just some fun !
+    //lab_mood_preview->setText("<img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOBAMAAADtZjDiAAAAA3NCSVQICAjb4U/gAAAAKlBMVEV/ugC/3YCXxzD3++/n8s+n0FCHvhD////P5aCfy0Dv9t+PwyCv1GDH4ZB5aF3aAAAACXBIWXMAAA50AAAOdAFrJLPWAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M0BrLToAAAAFtJREFUCJljsGSYXA4EDBMYGBhylpczgEEKlGZbDhbX3XCcwYCBgdNcIZ2hgO3Y8UIGdoYCzqryBiBdxtBey8DAzFDDwBsAVMJQlQDRWu4GpauOMYDEQZYA7QIABzwWQCQgM5IAAAAASUVORK5CYII=\" />");
     lab_mood_preview->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     lab_mood_preview->setWordWrap(true);
     lab_mood_preview->setOpenExternalLinks(true);

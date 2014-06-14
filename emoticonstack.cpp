@@ -4,8 +4,7 @@ std::atomic<bool> EmoticonStack::c_lock(false);
 int EmoticonStack::i_counter = 0;
 SKYPE_EMOTICONS_CONTAINER_T *EmoticonStack::e_data = 0;
 
-EmoticonStack::EmoticonStack(QObject *parent) :
-    QObject(parent)
+EmoticonStack::EmoticonStack()
 {
     MY_ATOMIC_LOCK_ACQUIRE(c_lock)
     //If this is the first instance of the class, load data
@@ -42,7 +41,7 @@ int EmoticonStack::count() const
     return e_data->size();
 }
 
-Emoticon * EmoticonStack::getEmoticonByName(const QString &name)
+const Emoticon * EmoticonStack::getEmoticonByName(const QString &name)
 {
     return e_data->value(name);
 }

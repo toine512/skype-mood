@@ -1,10 +1,11 @@
 #ifndef EMOTICONSTACK_H
 #define EMOTICONSTACK_H
 
-#include <QObject>
 #include <atomic>
+
 #include <QThread>
-#include <QHash>
+#include <QMap>
+
 #include "SkypeEmoticons.h"
 
 #define MY_ATOMIC_LOCK_ACQUIRE(MY_ATOMIC_LOCK__lck) \
@@ -25,15 +26,13 @@ typedef struct Emoticon
     const unsigned char *data;
 } Emoticon;
 
-class EmoticonStack : public QObject
+class EmoticonStack
 {
-    Q_OBJECT
-
 public:
-    explicit EmoticonStack(QObject *parent = 0);
+    explicit EmoticonStack();
     ~EmoticonStack();
     int count() const;
-    Emoticon * getEmoticonByName(const QString &name);
+    const Emoticon *getEmoticonByName(const QString &name);
     SKYPE_EMOTICONS_CONTAINER_T::const_iterator getCIteratorBegin() const;
     SKYPE_EMOTICONS_CONTAINER_T::const_iterator getCIteratorEnd() const;
 

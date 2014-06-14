@@ -8,6 +8,7 @@ QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+QMAKE_CXXFLAGS += -std=c++11
 TARGET = skype-mood
 TEMPLATE = app
 
@@ -20,7 +21,9 @@ SOURCES += main.cpp\
     menudialog.cpp \
     entitledseparator.cpp \
     editableintsizecombobox.cpp \
-    tagsplaintextedit.cpp
+    tagsplaintextedit.cpp \
+    emoticonstack.cpp \
+    emoticonmenu.cpp
 
 HEADERS  += mainwindow.h \
     skypecontactpreview.h \
@@ -30,7 +33,10 @@ HEADERS  += mainwindow.h \
     defines.h \
     entitledseparator.h \
     editableintsizecombobox.h \
-    tagsplaintextedit.h
+    tagsplaintextedit.h \
+    emoticonstack.h \
+    SkypeEmoticons.h \
+    emoticonmenu.h
 
 TRANSLATIONS  += fr.ts
 

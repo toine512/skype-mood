@@ -12,6 +12,7 @@
 #include <QSize>
 #include <QPixmap>
 #include <QByteArray>
+#include <QSignalMapper>
 
 #include "emoticonstack.h"
 
@@ -23,8 +24,12 @@ public:
     explicit EmoticonMenuWidgetAction(QObject *parent = 0);
     static int computeItemsPerLineCount(int item_count, int preferred_column_count, int maximum_row_count);
 
+protected slots:
+    void buttonPressed(const QString &id);
+
 protected:
     EmoticonStack emoticons;
+    QSignalMapper *mapper;
     QWidget * createWidget(QWidget *parent);
     //void deleteWidget(QWidget *widget);
 };

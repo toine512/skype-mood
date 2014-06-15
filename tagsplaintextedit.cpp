@@ -62,6 +62,7 @@ TagsPlainTextEdit::TagsPlainTextEdit(QWidget *parent) :
     connect(bar, SIGNAL(actionTriggered(QAction *)), this, SLOT(processAction(QAction *)));
     //connect(cb_font, SIGNAL(activated(const QString &)), this, SLOT(processFontFace(const QString &)));
     connect(cb_size, SIGNAL(sizeSelected(const QString &)), this, SLOT(processFontSize(const QString &)));
+    connect(btn, SIGNAL(triggered(QAction *)), this, SLOT(processEmoticon(QAction *)));
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -192,10 +193,20 @@ void TagsPlainTextEdit::processFontSize(const QString &size)
     insertTags(QString("<font size=\"%1\">").arg(size), "</font>");
 }
 
-void TagsPlainTextEdit::insertTags(const QString &open_tag, const QString &close_tag)
+void TagsPlainTextEdit::processEmoticon(QAction *action)
+{
+    EmoticonStack emoticons;
+    const Emoticon *emoticon = emoticons.getEmoticonByName(action->data().toString());
+    if(emoticon != 0)
+    {
+        insertTags(QString("<SS type=\"%1\">").arg(emoticon->id), "</SS>", emoticon->name, true);
+    }
+}
+
+void TagsPlainTextEdit::insertTags(const QString &open_tag, const QString &close_tag, const QString &inner_text, bool force_inner_text)
 {
     QTextCursor cur = pte->textCursor();
-    if(cur.hasSelection())
+    if(cur.hasSelection() && !force_inner_text)
     {
         cur.beginEditBlock();
         int sel_end = cur.selectionEnd();
@@ -207,7 +218,7 @@ void TagsPlainTextEdit::insertTags(const QString &open_tag, const QString &close
     }
     else
     {
-        cur.insertText(QString(open_tag).append(close_tag));
+        cur.insertText(QString(open_tag).append(inner_text).append(close_tag));
     }
     pte->setTextCursor(cur);
 }

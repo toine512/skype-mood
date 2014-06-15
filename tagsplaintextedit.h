@@ -19,6 +19,7 @@
 #include "editableintsizecombobox.h"
 //#include "fontlistcombobox.h"
 #include "emoticonmenu.h"
+#include "emoticonstack.h"
 
 class TagsPlainTextEdit : public QWidget
 {
@@ -39,7 +40,7 @@ signals:
     void textChanged();
 
 private:
-    void insertTags(const QString &open_tag, const QString &close_tag);
+    void insertTags(const QString &open_tag, const QString &close_tag, const QString &inner_text = QString(), bool force_inner_text = false);
 
     QPlainTextEdit *pte;
 
@@ -47,6 +48,7 @@ private slots:
     void processAction(QAction *action);
     //void processFontFace(const QString &font);
     void processFontSize(const QString &size);
+    void processEmoticon(QAction *action);
 };
 
 #endif // TAGSPLAINTEXTEDIT_H

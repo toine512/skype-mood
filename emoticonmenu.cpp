@@ -4,6 +4,8 @@ EmoticonMenuWidgetAction::EmoticonMenuWidgetAction(QObject *parent) :
     QWidgetAction(parent)
 {
     emoticons = EmoticonStack();
+    mapper = new QSignalMapper(this);
+    connect(mapper, SIGNAL(mapped(const QString &)), this, SLOT(buttonPressed(const QString &)));
 }
 
 int EmoticonMenuWidgetAction::computeItemsPerLineCount(int item_count, int preferred_column_count, int maximum_row_count)
@@ -33,6 +35,12 @@ int EmoticonMenuWidgetAction::computeItemsPerLineCount(int item_count, int prefe
     return (int)cols;
 }
 
+void EmoticonMenuWidgetAction::buttonPressed(const QString &id)
+{
+    setData(id);
+    trigger();
+}
+
 QWidget * EmoticonMenuWidgetAction::createWidget(QWidget *parent)
 {
     QWidget *w = new QWidget(parent);
@@ -52,6 +60,10 @@ QWidget * EmoticonMenuWidgetAction::createWidget(QWidget *parent)
         btn->setIcon(px);
         btn->setIconSize(QSize(20, 20));
         btn->setToolTip(i.value()->name);
+
+        mapper->setMapping(btn, i.value()->id);
+        connect(btn, SIGNAL(clicked()), mapper, SLOT(map()));
+
         l->addWidget(btn, n / cols, n % cols, 1, 1);
 
         n++;

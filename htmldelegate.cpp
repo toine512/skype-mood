@@ -13,7 +13,7 @@ void HtmlDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     QStyle *style = optionV4.widget? optionV4.widget->style() : QApplication::style();
 
     QTextDocument doc;
-    doc.setHtml(optionV4.text);
+    doc.setHtml(TagsPlainTextEdit::prepareForPreview(TagsPlainTextEdit::filterTags(optionV4.text)));
     doc.setTextWidth(optionV4.rect.width());
 
     //Painting item without text
@@ -46,7 +46,7 @@ QSize HtmlDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelInd
     initStyleOption(&optionV4, index);
 
     QTextDocument doc;
-    doc.setHtml(optionV4.text);
+    doc.setHtml(TagsPlainTextEdit::prepareForPreview(TagsPlainTextEdit::filterTags(optionV4.text)));
     doc.setTextWidth(optionV4.rect.width());
     return QSize(doc.idealWidth(), doc.size().height());
 }

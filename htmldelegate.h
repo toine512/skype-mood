@@ -13,6 +13,8 @@
 #include <QAbstractTextDocumentLayout>
 #include <QTextDocument>
 
+#include "tagsplaintextedit.h"
+
 class HtmlDelegate : public QStyledItemDelegate
 {
     Q_OBJECT

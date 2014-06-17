@@ -131,8 +131,6 @@ QWidget *MainWindow::initContent()
     connect(pte_mood, SIGNAL(textChanged()), this, SLOT(onMoodTextChanged()));
 
     lab_mood_preview = new QLabel;
-    //Just some fun !
-    //lab_mood_preview->setText("<img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOBAMAAADtZjDiAAAAA3NCSVQICAjb4U/gAAAAKlBMVEV/ugC/3YCXxzD3++/n8s+n0FCHvhD////P5aCfy0Dv9t+PwyCv1GDH4ZB5aF3aAAAACXBIWXMAAA50AAAOdAFrJLPWAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M0BrLToAAAAFtJREFUCJljsGSYXA4EDBMYGBhylpczgEEKlGZbDhbX3XCcwYCBgdNcIZ2hgO3Y8UIGdoYCzqryBiBdxtBey8DAzFDDwBsAVMJQlQDRWu4GpauOMYDEQZYA7QIABzwWQCQgM5IAAAAASUVORK5CYII=\" />");
     lab_mood_preview->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     lab_mood_preview->setWordWrap(true);
     lab_mood_preview->setOpenExternalLinks(true);
@@ -444,9 +442,7 @@ void MainWindow::onMoodTextChanged()
 {
     QString mood = TagsPlainTextEdit::filterTags(pte_mood->toPlainText());
     contact_preview->setMood(mood);
-    //Convert <font size> to typographic points for the preview since Skype doesn't follow the HTML standard
-    mood.replace(QRegularExpression("<font ([^<>]*)size=\"([0-9]*)\"([^<>]*)>", QRegularExpression::CaseInsensitiveOption), "<font \\1style=\"font-size: \\2pt\"\\3>");
-    lab_mood_preview->setText(mood);
+    lab_mood_preview->setText(TagsPlainTextEdit::prepareForPreview(mood));
 }
 
 void MainWindow::applyAndClose()

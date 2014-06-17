@@ -122,6 +122,38 @@ QString TagsPlainTextEdit::filterTags(const QString &input)
     return filtered;
 }
 
+QString TagsPlainTextEdit::prepareForPreview(const QString &mood)
+{
+    QString str(mood);
+    //Convert <font size> to typographic points for the preview since Skype doesn't follow the HTML standard
+    str.replace(QRegularExpression("<font ([^<>]*)size=\"([0-9]*)\"([^<>]*)>", QRegularExpression::CaseInsensitiveOption), "<font \\1style=\"font-size: \\2pt\"\\3>");
+
+    //Convert emoticon <SS> tag to <img />
+    EmoticonStack emoticons;
+    QRegularExpression regex("<SS type=\"(.*?)\">(.*?)</SS>", QRegularExpression::CaseInsensitiveOption);
+    while(true)
+    {
+        QRegularExpressionMatch match = regex.match(str, 0, QRegularExpression::NormalMatch, QRegularExpression::NoMatchOption);
+        if(match.hasMatch())
+        {
+            const Emoticon *emote = emoticons.getEmoticonByName(match.captured(1));
+            if(emote != 0)
+            {
+                str.replace(match.capturedStart(0), match.capturedLength(0), QString("<img src=\"data:image/png;base64,%1\" alt=\"%2\" />").arg(QByteArray::fromRawData((const char*)emote->data, emote->dataSize).toBase64(), match.captured(2)));
+            }
+            else
+            {
+                str.remove(match.capturedStart(0), match.capturedLength(0));
+            }
+        }
+        else
+        {
+            break;
+        }
+    }
+    return str;
+}
+
 void TagsPlainTextEdit::clear()
 {
     pte->clear();

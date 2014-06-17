@@ -31,6 +31,7 @@ public:
     static void decodeXMLEntities(QString &str);
     static void encodeXMLEntities(QString &str);
     static QString filterTags(const QString &input);
+    static QString prepareForPreview(const QString &mood);
 
 public slots:
     void clear();

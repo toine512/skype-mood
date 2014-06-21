@@ -1,5 +1,4 @@
 #include "mainwindow.h"
-#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent, Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint), skype_path(QString()), skype_was_killed(false)
@@ -74,7 +73,7 @@ void MainWindow::initTranslator()
 {
     Q_UNUSED(QT_TRANSLATE_NOOP("meta", "language"));
 
-    qDebug() << "Locale :" << QLocale::system().name();
+    //qDebug() << "Locale :" << QLocale::system().name();
     QTranslator *tr = new QTranslator(qApp);
     QString path = settings->value("ui/lang", QString(":translations/%1.qm").arg(QLocale::system().name())).toString();
     if(tr->load(path))
@@ -377,7 +376,7 @@ void MainWindow::onMaindbSelected(int index)
                            /* Mood message */
                            QString mood_text(query.value("rich_mood_text").toString());
                            TagsPlainTextEdit::decodeXMLEntities(mood_text);
-                           uint mood_time = query.value("mood_timestamp").toUInt();
+                           //uint mood_time = query.value("mood_timestamp").toUInt();
 
                            //Fill the text box with the current mood
                            pte_mood->setPlainText(mood_text);
@@ -413,7 +412,7 @@ void MainWindow::onMaindbSelected(int index)
                            contact_preview->setPicture(profile_pic);
 
                            enableEditing();
-                           qDebug() << QString("Last update: %1").arg(QDateTime::fromTime_t(mood_time).toString(Qt::SystemLocaleLongDate));
+                           //qDebug() << QString("Last update: %1").arg(QDateTime::fromTime_t(mood_time).toString(Qt::SystemLocaleLongDate));
                        }
                        else
                        {
@@ -454,7 +453,6 @@ void MainWindow::applyAndClose()
         query.bindValue(0, QDateTime::currentDateTime().toTime_t());
         query.bindValue(1, TagsPlainTextEdit::filterTags(pte_mood->toPlainText()));
         query.exec();
-        qDebug() << TagsPlainTextEdit::filterTags(pte_mood->toPlainText());
     }
     //UPDATE "main"."Accounts" SET "mood_timestamp" = ?1, "rich_mood_text" = ?2 WHERE  "id" = 1
     close();
